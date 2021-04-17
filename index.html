@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+    <title>Line Chart for Population</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.0/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>    
+    <div class="container">
+        <h4>LINE CHART ON POPULATION</h4>
+        <canvas id="lineChart"></canvas>
+    </div>
+
+    <script>
+
+        fetch("json/population.json")
+        .then(function (response)
+        {
+            return response.json();
+        })
+        .then(function (data)
+        {
+            let xaxis = [];
+            let yaxis = [];
+
+            for(let i =0; i < data.length; i++)
+            {
+                xaxis.push(data[i].population);
+                yaxis.push(data[i].country)
+                console.log(yaxis)
+            }
+
+            let myChart = document.getElementById("lineChart").getContext("2d");
+            let massPopChart = new Chart(myChart, {
+                type: 'line', //bar, line, horizontalBar, doughnut, pie, radar, polarArea
+                data: {
+                    labels: yaxis,
+                    datasets: [{
+                        label: 'Population',
+                        data: xaxis,
+                        backgroundColor: 'transparent',           
+                        borderWidth: 4,
+                        borderColor: 'lightgreen'            
+                    }]
+                },
+                options: {
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+                
+        });        
+    </script>
+    
+</body>
+</html>
